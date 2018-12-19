@@ -17,31 +17,38 @@ error_train = zeros(length(lambda_vec), 1);
 error_val = zeros(length(lambda_vec), 1);
 
 % ====================== YOUR CODE HERE ======================
-% Instructions: Fill in this function to return training errors in 
-%               error_train and the validation errors in error_val. The 
-%               vector lambda_vec contains the different lambda parameters 
-%               to use for each calculation of the errors, i.e, 
-%               error_train(i), and error_val(i) should give 
-%               you the errors obtained after training with 
+% Instructions: Fill in this function to return training errors in
+%               error_train and the validation errors in error_val. The
+%               vector lambda_vec contains the different lambda parameters
+%               to use for each calculation of the errors, i.e,
+%               error_train(i), and error_val(i) should give
+%               you the errors obtained after training with
 %               lambda = lambda_vec(i)
 %
 % Note: You can loop over lambda_vec with the following:
 %
 %       for i = 1:length(lambda_vec)
 %           lambda = lambda_vec(i);
-%           % Compute train / val errors when training linear 
+%           % Compute train / val errors when training linear
 %           % regression with regularization parameter lambda
 %           % You should store the result in error_train(i)
 %           % and error_val(i)
 %           ....
-%           
+%
 %       end
 %
 %
+for i = 1:length(lambda_vec)
+  
+  lambda = lambda_vec(i);
+  [theta(:, i)] = trainLinearReg(X, y, lambda);
+  h_train(:, i) = X * theta(:, i);
+  h_val(:, i) = Xval * theta(:, i);
 
 
-
-
+  error_train(i) = ( h_train(:, i) - y )' * ( h_train(:, i) - y) / (2 * length(y));
+  error_val(i) = ( h_val(:, i) - yval )' * ( h_val(:, i) - yval ) / (2 * length(yval));
+end
 
 
 
